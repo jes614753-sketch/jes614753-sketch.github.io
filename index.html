@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blink Hsu · AI/ML Explorer</title>
+  <meta name="description" content="Blink Hsu — AI/ML Developer / Building intelligent tools / Vibe Coder" />
+  <meta name="author" content="Blink Hsu" />
+  <meta name="keywords" content="Blink Hsu, AI, ML, LLM, Claude Code, Python, TypeScript" />
+  <meta property="og:title" content="Blink Hsu · AI/ML Explorer" />
+  <meta property="og:description" content="Building intelligent tools at the intersection of AI and software engineering." />
+  <meta property="og:type" content="website" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Arial', 'PingFang SC', 'sans-serif'],
+            mono: ['SF Mono', 'Fira Code', 'JetBrains Mono', 'monospace'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.8s ease-out forwards',
+            'float': 'float 6s ease-in-out infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.08); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.15); }
+    .dark ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); }
+    .dark ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    .page-exit { animation: fadeOut 0.3s ease forwards; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .glass {
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+    .dark .glass { background: rgba(29,29,31,0.85); }
+
+    .frost-card {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border: 1px solid rgba(0,0,0,0.04);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .frost-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.06); transform: translateY(-4px); }
+    .dark .frost-card {
+      background: rgba(44,44,46,0.8);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .dark .frost-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+
+    .project-card { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    .project-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 60px -12px rgba(139,115,85,0.12); }
+    .dark .project-card:hover { box-shadow: 0 20px 60px -12px rgba(0,0,0,0.5); }
+
+    .tech-badge { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    .tech-badge:hover { transform: translateY(-3px); }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #0071E3, #147CE5);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .grid-pattern {
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,0,0,0.015) 0%, transparent 50%);
+    }
+    .dark .grid-pattern {
+      background-image:
+        radial-gradient(ellipse 80% 50% at 20% 80%, rgba(255,255,255,0.02) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(255,255,255,0.015) 0%, transparent 50%);
+    }
+
+    .hero-bg {
+      background:
+        radial-gradient(ellipse 60% 50% at 30% 40%, rgba(0,113,227,0.02) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 70% 60%, rgba(88,86,214,0.015) 0%, transparent 50%);
+    }
+    .dark .hero-bg {
+      background:
+        radial-gradient(ellipse 60% 50% at 30% 40%, rgba(0,113,227,0.03) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 70% 60%, rgba(41,151,255,0.02) 0%, transparent 50%);
+    }
+
+    .nav-link::after { content: ''; display: block; width: 0; height: 2px; background: #0071E3; transition: width 0.3s; }
+    .nav-link:hover::after { width: 100%; }
+    .toggle-thumb { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    .lang-btn { transition: all 0.2s; }
+    .lang-btn.active { background: #0071E3; color: #fff; }
+    .dark .lang-btn.active { background: #2997FF; color: #000; }
+
+    ::selection { background: #0071E3; color: #fff; }
+    .dark ::selection { background: #2997FF; color: #000; }
+
+    .btn-press { transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s; }
+    .btn-press:active { transform: scale(0.97); }
+    .tech-badge:active { transform: translateY(-1px) scale(0.97); }
+    .project-card:active { transform: translateY(-4px) scale(1.01); }
+
+    :focus-visible { outline: 2px solid #0071E3; outline-offset: 2px; border-radius: 4px; }
+    .dark :focus-visible { outline-color: #2997FF; }
+
+    .section-alt {
+      background: rgba(0,0,0,0.015);
+    }
+    .dark .section-alt {
+      background: rgba(255,255,255,0.02);
+    }
+  </style>
+</head>
+
+<body class="bg-[#FAFAFA] text-[#1D1D1F] dark:bg-[#000000] dark:text-[#F5F5F7] font-sans antialiased grid-pattern min-h-screen" style="animation: fadeIn 0.4s ease">
+
+  <!-- === AMBIENT EFFECTS === -->
+  <div id="daylight-fx" class="fixed inset-0 pointer-events-none transition-opacity duration-1000" style="opacity:0;z-index:1">
+    <canvas id="orb-canvas" style="display:block;width:100%;height:100%"></canvas>
+  </div>
+  <div id="moonlight-fx" class="fixed inset-0 pointer-events-none transition-opacity duration-1000" style="opacity:0;z-index:1">
+    <canvas id="network-canvas" style="display:block;width:100%;height:100%"></canvas>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 inset-x-0 z-50 glass border-b border-black/5 dark:border-white/8">
+    <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+      <a href="https://github.com/jes614753-sketch" target="_blank" rel="noopener" class="btn-press inline-flex items-center gap-1.5 px-3 py-1 text-sm font-medium rounded-full bg-black/5 dark:bg-white/10 text-[#86868B] dark:text-[#86868B] hover:bg-black/8 dark:hover:bg-white/15 transition-all">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+        <span data-i18n="nav_github">GitHub</span>
+      </a>
+      <!-- Desktop nav -->
+      <div class="hidden sm:flex items-center gap-8 text-sm font-medium text-[#86868B] dark:text-[#86868B]">
+        <a href="#about" class="nav-link hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] transition-colors" data-i18n="nav_about">关于</a>
+        <a href="#stack" class="nav-link hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] transition-colors" data-i18n="nav_stack">技术栈</a>
+        <a href="#projects" class="nav-link hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] transition-colors" data-i18n="nav_projects">项目</a>
+        <a href="#life" class="nav-link hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] transition-colors" data-i18n="nav_life">生活</a>
+      </div>
+      <!-- Mobile hamburger -->
+      <button id="menu-btn" class="sm:hidden flex items-center justify-center w-9 h-9 rounded-lg text-[#86868B] dark:text-[#86868B] hover:bg-black/5 dark:hover:bg-white/10 transition-colors" aria-label="Menu">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+      </button>
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="absolute top-full left-0 right-0 sm:hidden glass border-b border-black/5 dark:border-white/8 py-3 px-6 space-y-1 text-sm font-medium text-[#86868B] dark:text-[#86868B]" style="display:none">
+        <a href="#about" class="block py-2 hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors" data-i18n="nav_about">关于</a>
+        <a href="#stack" class="block py-2 hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors" data-i18n="nav_stack">技术栈</a>
+        <a href="#projects" class="block py-2 hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors" data-i18n="nav_projects">项目</a>
+        <a href="#life" class="block py-2 hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors" data-i18n="nav_life">生活</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <!-- Language toggle -->
+        <div class="flex rounded-lg overflow-hidden border border-black/8 dark:border-white/10 text-xs">
+          <button onclick="setLang('zh')" id="lang-zh" class="lang-btn active px-2 py-1 font-medium">中</button>
+          <button onclick="setLang('en')" id="lang-en" class="lang-btn px-2 py-1 font-medium text-[#86868B] dark:text-[#86868B]">EN</button>
+        </div>
+        <a href="https://github.com/jes614753-sketch" target="_blank" rel="noopener" class="text-[#86868B]/60 hover:text-[#1D1D1F] dark:text-[#86868B]/60 dark:hover:text-[#F5F5F7] transition-colors ml-1">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+        <button id="theme-toggle" class="relative w-10 h-6 rounded-full bg-black/8 dark:bg-white/15 flex items-center px-0.5" aria-label="Toggle dark mode">
+          <span class="toggle-thumb w-5 h-5 rounded-full bg-white shadow-md flex items-center justify-center dark:translate-x-4">
+            <svg class="w-3 h-3 text-[#0071E3] dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+            <svg class="w-3 h-3 text-[#2997FF] hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" class="relative pt-32 pb-20 px-6 overflow-hidden hero-bg">
+    <div class="absolute top-20 -left-32 w-96 h-96 bg-[#0071E3]/8 dark:bg-[#2997FF]/6 rounded-full blur-3xl animate-float"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 bg-[#147CE5]/6 dark:bg-[#2997FF]/5 rounded-full blur-3xl animate-float" style="animation-delay:-3s;"></div>
+    <div class="max-w-5xl mx-auto relative">
+      <div class="reveal flex flex-col items-center text-center gap-6">
+        <img src="https://avatars.githubusercontent.com/u/273924240?v=4" alt="Blink Hsu" class="w-28 h-28 rounded-full shadow-lg shadow-[#0071E3]/20 dark:shadow-[#2997FF]/15 object-cover bg-gradient-to-br from-[#0071E3] to-[#147CE5]" />
+        <div class="space-y-3">
+          <h1 class="text-4xl sm:text-5xl font-bold tracking-tight" data-i18n="hero_title">你好，我是 <span class="text-[#1D1D1F] dark:text-[#F5F5F7]">Blink Hsu</span></h1>
+          <p class="text-xl sm:text-2xl text-[#86868B] dark:text-[#86868B] font-light">AI / ML <span class="text-black/15 dark:text-white/15">/</span> Explorer</p>
+        </div>
+        <p class="max-w-xl text-base text-[#86868B] dark:text-[#86868B] leading-relaxed" data-i18n="hero_desc">热爱 <strong class="text-[#1D1D1F] dark:text-[#F5F5F7]">AI</strong> 和 <strong class="text-[#1D1D1F] dark:text-[#F5F5F7]">智能工具</strong>的开发者。用代码构建更聪明的软件，让技术更好地服务人类。每天进步一点点，从不白费力气。</p>
+        <div class="flex flex-wrap justify-center gap-3 pt-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400 border border-blue-100 dark:border-blue-500/20">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+            <span data-i18n="badge_open">开放合作</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-violet-50/80 text-violet-700 dark:bg-violet-500/10 dark:text-violet-300 border border-violet-100 dark:border-violet-500/20">AI / ML</span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-50/80 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-500/20" data-i18n="badge_vibe">Vibe Coder</span>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3 pt-4">
+          <a href="#projects" class="btn-press px-6 py-2.5 rounded-xl text-sm font-medium bg-[#0071E3] dark:bg-[#2997FF] text-white dark:text-[#F5F5F7] hover:brightness-110 transition-all shadow-md shadow-[#0071E3]/20 dark:shadow-[#2997FF]/15" data-i18n="btn_projects">查看项目</a>
+          <a href="https://github.com/jes614753-sketch" target="_blank" rel="noopener" class="btn-press px-6 py-2.5 rounded-xl text-sm font-medium border border-black/8 dark:border-white/10 text-[#86868B] dark:text-[#86868B] hover:border-[#0071E3] dark:hover:border-[#2997FF] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="py-20 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="reveal">
+        <p class="text-xs font-semibold uppercase tracking-widest text-[#0071E3] dark:text-[#2997FF] mb-3" data-i18n="about_label">关于</p>
+        <h2 class="text-3xl font-bold mb-10" data-i18n="about_title">关于我</h2>
+      </div>
+      <div class="reveal grid sm:grid-cols-2 gap-6">
+        <div class="frost-card p-6 rounded-2xl">
+          <div class="w-8 h-8 mb-3 text-violet-500"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg></div>
+          <h3 class="font-semibold mb-2" data-i18n="about_ai">AI 探索者</h3>
+          <p class="text-sm text-[#86868B] dark:text-[#86868B] leading-relaxed" data-i18n="about_ai_d">深入研究 LLM、Agent、RAG 等 AI 前沿方向。热衷于构建智能化工具，探索 AI 在软件工程中的最佳实践。</p>
+        </div>
+        <div class="frost-card p-6 rounded-2xl">
+          <div class="w-8 h-8 mb-3 text-amber-500"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg></div>
+          <h3 class="font-semibold mb-2">Vibe Coder</h3>
+          <p class="text-sm text-[#86868B] dark:text-[#86868B] leading-relaxed" data-i18n="about_vibe_d">借助 Claude Code 和 Prompt Engineering 以惊人的速度交付项目。相信软件的未来是对话式的——描述你想要的，快速迭代，交付高质量成果。</p>
+        </div>
+        <div class="frost-card p-6 rounded-2xl">
+          <div class="w-8 h-8 mb-3 text-blue-500"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/></svg></div>
+          <h3 class="font-semibold mb-2" data-i18n="about_eng">工具构建者</h3>
+          <p class="text-sm text-[#86868B] dark:text-[#86868B] leading-relaxed" data-i18n="about_eng_d">用 Python 和 TypeScript 构建实用的开发者工具。从 AI 效率审计到桌面应用，每一个项目都在解决真实的问题。</p>
+        </div>
+        <div class="frost-card p-6 rounded-2xl">
+          <div class="w-8 h-8 mb-3 text-emerald-500"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 00-.491 6.347A48.62 48.62 0 0112 20.904a48.62 48.62 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.636 50.636 0 00-2.658-.813A59.906 59.906 0 0112 3.493a59.903 59.903 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg></div>
+          <h3 class="font-semibold mb-2" data-i18n="about_learn">终身学习者</h3>
+          <p class="text-sm text-[#86868B] dark:text-[#86868B] leading-relaxed" data-i18n="about_learn_d">Make a little progress each day, for no effort is ever wasted. 每天进步一点点，保持好奇心和学习热情。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section id="stack" class="py-20 px-6 section-alt">
+    <div class="max-w-5xl mx-auto">
+      <div class="reveal">
+        <p class="text-xs font-semibold uppercase tracking-widest text-[#0071E3] dark:text-[#2997FF] mb-3" data-i18n="stack_label">技术栈</p>
+        <h2 class="text-3xl font-bold mb-10" data-i18n="stack_title">工具 & 技术</h2>
+      </div>
+      <div class="reveal space-y-8">
+        <div>
+          <h3 class="text-sm font-semibold text-[#86868B]/70 dark:text-[#86868B]/70 uppercase tracking-wider mb-4" data-i18n="stack_ai">AI & ML</h3>
+          <div class="flex flex-wrap gap-2.5">
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-300 border border-violet-100 dark:border-violet-500/20">LLM</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-300 border border-violet-100 dark:border-violet-500/20">RAG</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-300 border border-violet-100 dark:border-violet-500/20">Agent</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-300 border border-violet-100 dark:border-violet-500/20">Claude Code</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-300 border border-violet-100 dark:border-violet-500/20">Prompt Engineering</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold text-[#86868B]/70 dark:text-[#86868B]/70 uppercase tracking-wider mb-4" data-i18n="stack_lang">编程语言</h3>
+          <div class="flex flex-wrap gap-2.5">
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-cyan-50 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-300 border border-cyan-100 dark:border-cyan-500/20">Python</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-cyan-50 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-300 border border-cyan-100 dark:border-cyan-500/20">TypeScript</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-cyan-50 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-300 border border-cyan-100 dark:border-cyan-500/20">JavaScript</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-cyan-50 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-300 border border-cyan-100 dark:border-cyan-500/20">Dart</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold text-[#86868B]/70 dark:text-[#86868B]/70 uppercase tracking-wider mb-4" data-i18n="stack_fw">框架 & 工具</h3>
+          <div class="flex flex-wrap gap-2.5">
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300 border border-blue-100 dark:border-blue-500/20">React</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300 border border-blue-100 dark:border-blue-500/20">Flutter</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300 border border-blue-100 dark:border-blue-500/20">Electron</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300 border border-blue-100 dark:border-blue-500/20">FastAPI</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300 border border-blue-100 dark:border-blue-500/20">MCP</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold text-[#86868B]/70 dark:text-[#86868B]/70 uppercase tracking-wider mb-4" data-i18n="stack_voice">语音 & 音频</h3>
+          <div class="flex flex-wrap gap-2.5">
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-rose-50 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300 border border-rose-100 dark:border-rose-500/20">TTS</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-rose-50 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300 border border-rose-100 dark:border-rose-500/20">STT</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-rose-50 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300 border border-rose-100 dark:border-rose-500/20">Voice Agent</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold text-[#86868B]/70 dark:text-[#86868B]/70 uppercase tracking-wider mb-4">Dev Tools</h3>
+          <div class="flex flex-wrap gap-2.5">
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300 border border-amber-100 dark:border-amber-500/20">Git</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300 border border-amber-100 dark:border-amber-500/20">GitHub Actions</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300 border border-amber-100 dark:border-amber-500/20">Docker</span>
+            <span class="tech-badge px-4 py-2 rounded-xl text-sm font-medium bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300 border border-amber-100 dark:border-amber-500/20">Linux</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="py-20 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="reveal">
+        <p class="text-xs font-semibold uppercase tracking-widest text-[#0071E3] dark:text-[#2997FF] mb-3" data-i18n="proj_label">项目</p>
+        <h2 class="text-3xl font-bold mb-10" data-i18n="proj_title">我的作品</h2>
+      </div>
+      <div class="reveal grid sm:grid-cols-2 gap-6">
+        <!-- AIEA -->
+        <a href="https://github.com/jes614753-sketch/aiea" target="_blank" rel="noopener" class="project-card p-6 rounded-2xl bg-white/80 dark:bg-[#2C2C2E]/80 backdrop-blur-xl border border-black/5 dark:border-white/8 cursor-pointer group block no-underline text-inherit">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center text-violet-500 group-hover:scale-110 transition-transform"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605"/></svg></div>
+            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-violet-50 text-violet-600 dark:bg-violet-500/10 dark:text-violet-300">Python</span>
+          </div>
+          <h3 class="font-semibold text-lg mb-2 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">AIEA</h3>
+          <p class="text-sm text-[#86868B] dark:text-[#86868B] leading-relaxed mb-4" data-i18n="proj_aiea">AI Efficiency Auditor for Claude Code — 不只是 token 计数，更是 token 浪费的精准诊断工具。</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="px-2 py-0.5 text-xs rounded-md bg-black/5 dark:bg-white/8 text-[#86868B] dark:text-[#86868B]">Python</span>
+            <span class="px-2 py-0.5 text-xs rounded-md bg-black/5 dark:bg-white/8 text-[#86868B] dark:text-[#86868B]">Claude Code</span>
+            <span class="px-2 py-0.5 text-xs rounded-md bg-black/5 dark:bg-white/8 text-[#86868B] dark:text-[#86868B]">Token Analysis</span>
+          </div>
+        </a>
+        <!-- CodeWhale Desktop -->
+        <a href="https://github.com/jes614753-sketch/codewhale-desktop" target="_blank" rel="noopener" class="project-card p-6 rounded-2xl bg-white/80 dark:bg-[#2C2C2E]/80 backdrop-blur-xl border border-black/5 dark:border-white/8 cursor-pointer group block no-underline text-inherit">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 7.41A2.25 2.25 0 012.25 5.495V5.25"/></svg></div>
+            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-300">TypeScript</span>
+          </div>
+          <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">CodeWhale Desktop</h3>
+          <p class="text-sm text-[#86868B] dark:text-[#86868B] leading-relaxed mb-4" data-i18n="proj_codewhale">CodeWhale 终端编程 Agent 的桌面 GUI 客户端。基于 Electron + React + TypeScript 构建。</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="px-2 py-0.5 text-xs rounded-md bg-black/5 dark:bg-white/8 text-[#86868B] dark:text-[#86868B]">Electron</span>
+            <span class="px-2 py-0.5 text-xs rounded-md bg-black/5 dark:bg-white/8 text-[#86868B] dark:text-[#86868B]">React</span>
+            <span class="px-2 py-0.5 text-xs rounded-md bg-black/5 dark:bg-white/8 text-[#86868B] dark:text-[#86868B]">Desktop App</span>
+          </div>
+        </a>
+        <!-- Vibe Code Selfcheck -->
+        <a href="https://github.com/jes614753-sketch/vibe-code-selfcheck" target="_blank" rel="noopener" class="project-card p-6 rounded-2xl bg-white/80 dark:bg-[#2C2C2E]/80 backdrop-blur-xl border border-black/5 dark:border-white/8 cursor-pointer group block no-underline text-inherit">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-500 group-hover:scale-110 transition-transform"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div>
+            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-300">Python</span>
+          </div>
+          <h3 class="font-semibold text-lg mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Vibe Code Selfcheck</h3>
+          <p class="text-sm text-[#86868B] dark:text-[#86868B] leading-relaxed mb-4" data-i18n="proj_vibe">AI 生成代码的自检 MCP Server：扫描、技术债务检测和健康报告。让 AI 写的代码更可靠。</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="px-2 py-0.5 text-xs rounded-md bg-black/5 dark:bg-white/8 text-[#86868B] dark:text-[#86868B]">Python</span>
+            <span class="px-2 py-0.5 text-xs rounded-md bg-black/5 dark:bg-white/8 text-[#86868B] dark:text-[#86868B]">MCP</span>
+            <span class="px-2 py-0.5 text-xs rounded-md bg-black/5 dark:bg-white/8 text-[#86868B] dark:text-[#86868B]">Code Quality</span>
+          </div>
+        </a>
+        <!-- CC Action Gate -->
+        <a href="https://github.com/jes614753-sketch/cc-action-gate" target="_blank" rel="noopener" class="project-card p-6 rounded-2xl bg-white/80 dark:bg-[#2C2C2E]/80 backdrop-blur-xl border border-black/5 dark:border-white/8 cursor-pointer group block no-underline text-inherit">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg></div>
+            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-300">Python</span>
+          </div>
+          <h3 class="font-semibold text-lg mb-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">CC Action Gate</h3>
+          <p class="text-sm text-[#86868B] dark:text-[#86868B] leading-relaxed mb-4" data-i18n="proj_ccgate">Claude Code 的下一步操作准入控制器。智能管理 AI Agent 的行为边界。</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="px-2 py-0.5 text-xs rounded-md bg-black/5 dark:bg-white/8 text-[#86868B] dark:text-[#86868B]">Python</span>
+            <span class="px-2 py-0.5 text-xs rounded-md bg-black/5 dark:bg-white/8 text-[#86868B] dark:text-[#86868B]">Claude Code</span>
+            <span class="px-2 py-0.5 text-xs rounded-md bg-black/5 dark:bg-white/8 text-[#86868B] dark:text-[#86868B]">Agent Control</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GITHUB STATS -->
+  <section id="stats" class="py-20 px-6 section-alt">
+    <div class="max-w-5xl mx-auto">
+      <div class="reveal">
+        <p class="text-xs font-semibold uppercase tracking-widest text-[#0071E3] dark:text-[#2997FF] mb-3">GitHub</p>
+        <h2 class="text-3xl font-bold mb-10" data-i18n="stats_title">活跃度</h2>
+      </div>
+      <div class="reveal">
+        <div class="frost-card p-8 rounded-2xl space-y-8">
+          <div class="w-full">
+            <img src="https://ghchart.rshah.org/4A5B6F/jes614753-sketch" alt="GitHub Contribution Chart" class="w-full rounded-lg" loading="lazy" />
+          </div>
+          <div class="w-full max-w-md mx-auto">
+            <img src="https://streak-stats.demolab.com/?user=jes614753-sketch&theme=transparent&hide_border=true&stroke=00000000&ring=4A5B6F&fire=4A5B6F&currStreakLabel=4A5B6F&background=transparent" alt="GitHub Streak" class="w-full rounded-lg" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIFE -->
+  <section id="life" class="py-20 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="reveal">
+        <p class="text-xs font-semibold uppercase tracking-widest text-[#0071E3] dark:text-[#2997FF] mb-3" data-i18n="life_label">生活</p>
+        <h2 class="text-3xl font-bold mb-10" data-i18n="life_title">代码之外</h2>
+      </div>
+      <div class="reveal grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded-2xl bg-white/80 dark:bg-[#2C2C2E]/80 backdrop-blur-xl border border-black/5 dark:border-white/8 text-center group hover:border-violet-200/60 dark:hover:border-violet-500/30 transition-colors">
+          <div class="mb-4 group-hover:scale-110 transition-transform inline-flex items-center justify-center w-12 h-12 rounded-xl bg-violet-50 dark:bg-violet-500/10 text-violet-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg></div>
+          <h3 class="font-semibold mb-2" data-i18n="life_ai">AI 研究</h3>
+          <p class="text-sm text-[#86868B] dark:text-[#86868B]" data-i18n="life_ai_d">探索 AI 的边界。<br/>每天都在学习新的可能性。</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-white/80 dark:bg-[#2C2C2E]/80 backdrop-blur-xl border border-black/5 dark:border-white/8 text-center group hover:border-amber-200/60 dark:hover:border-amber-500/30 transition-colors">
+          <div class="mb-4 group-hover:scale-110 transition-transform inline-flex items-center justify-center w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-500/10 text-amber-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg></div>
+          <h3 class="font-semibold mb-2" data-i18n="life_read">阅读</h3>
+          <p class="text-sm text-[#86868B] dark:text-[#86868B]" data-i18n="life_read_d">技术书籍与论文。<br/>知识是最好的投资。</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-white/80 dark:bg-[#2C2C2E]/80 backdrop-blur-xl border border-black/5 dark:border-white/8 text-center group hover:border-emerald-200/60 dark:hover:border-emerald-500/30 transition-colors">
+          <div class="mb-4 group-hover:scale-110 transition-transform inline-flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z"/></svg></div>
+          <h3 class="font-semibold mb-2" data-i18n="life_create">创造</h3>
+          <p class="text-sm text-[#86868B] dark:text-[#86868B]" data-i18n="life_create_d">Side projects & 开源。<br/>把想法变成现实。</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-white/80 dark:bg-[#2C2C2E]/80 backdrop-blur-xl border border-black/5 dark:border-white/8 text-center group hover:border-sky-200/60 dark:hover:border-sky-500/30 transition-colors">
+          <div class="mb-4 group-hover:scale-110 transition-transform inline-flex items-center justify-center w-12 h-12 rounded-xl bg-sky-50 dark:bg-sky-500/10 text-sky-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <h3 class="font-semibold mb-2" data-i18n="life_cycle">骑行</h3>
+          <p class="text-sm text-[#86868B] dark:text-[#86868B]" data-i18n="life_cycle_d">公路骑行与探索。<br/>最好的灵感在路上。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-12 px-6 border-t border-black/5 dark:border-white/8">
+    <div class="max-w-5xl mx-auto flex flex-col items-center gap-5">
+      <div class="flex gap-5 text-[#86868B]/50 dark:text-[#86868B]/50">
+        <a href="https://github.com/jes614753-sketch" target="_blank" rel="noopener" class="hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors" aria-label="GitHub"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+      </div>
+      <!-- WeChat -->
+      <div class="frost-card px-6 py-4 rounded-2xl flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-500 flex-shrink-0">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 01.598.082l1.584.926a.272.272 0 00.14.045c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 01-.023-.156.49.49 0 01.201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zM14.85 13.34c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982zm4.842 0c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982z"/></svg>
+        </div>
+        <div>
+          <div class="text-sm font-medium text-[#1D1D1F] dark:text-[#F5F5F7]" data-i18n="wechat_id">微信号：x1208lb</div>
+          <div class="text-xs text-[#86868B] dark:text-[#86868B]" data-i18n="wechat_note">添加请备注来意</div>
+        </div>
+      </div>
+      <div class="text-xs text-[#86868B]/40 dark:text-[#86868B]/40">&copy; 2026 Blink Hsu. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+  // === i18n ===
+  const I18N = {
+    zh: {
+      nav_github: 'GitHub', nav_about: '关于', nav_stack: '技术栈', nav_projects: '项目', nav_life: '生活',
+      hero_title: '你好，我是 <span class="text-[#1D1D1F] dark:text-[#F5F5F7]">Blink Hsu</span>',
+      hero_desc: '热爱 <strong class="text-[#1D1D1F] dark:text-[#F5F5F7]">AI</strong> 和 <strong class="text-[#1D1D1F] dark:text-[#F5F5F7]">智能工具</strong>的开发者。用代码构建更聪明的软件，让技术更好地服务人类。每天进步一点点，从不白费力气。',
+      badge_open: '开放合作', badge_vibe: 'Vibe Coder',
+      btn_projects: '查看项目',
+      about_label: '关于', about_title: '关于我',
+      about_ai: 'AI 探索者', about_ai_d: '深入研究 LLM、Agent、RAG 等 AI 前沿方向。热衷于构建智能化工具，探索 AI 在软件工程中的最佳实践。',
+      about_vibe_d: '借助 Claude Code 和 Prompt Engineering 以惊人的速度交付项目。相信软件的未来是对话式的——描述你想要的，快速迭代，交付高质量成果。',
+      about_eng: '工具构建者', about_eng_d: '用 Python 和 TypeScript 构建实用的开发者工具。从 AI 效率审计到桌面应用，每一个项目都在解决真实的问题。',
+      about_learn: '终身学习者', about_learn_d: 'Make a little progress each day, for no effort is ever wasted. 每天进步一点点，保持好奇心和学习热情。',
+      stack_label: '技术栈', stack_title: '工具 & 技术',
+      stack_ai: 'AI & ML', stack_lang: '编程语言', stack_fw: '框架 & 工具', stack_voice: '语音 & 音频',
+      proj_label: '项目', proj_title: '我的作品',
+      proj_aiea: 'AI Efficiency Auditor for Claude Code — 不只是 token 计数，更是 token 浪费的精准诊断工具。',
+      proj_codewhale: 'CodeWhale 终端编程 Agent 的桌面 GUI 客户端。基于 Electron + React + TypeScript 构建。',
+      proj_vibe: 'AI 生成代码的自检 MCP Server：扫描、技术债务检测和健康报告。让 AI 写的代码更可靠。',
+      proj_ccgate: 'Claude Code 的下一步操作准入控制器。智能管理 AI Agent 的行为边界。',
+      stats_title: '活跃度',
+      life_label: '生活', life_title: '代码之外',
+      life_ai: 'AI 研究', life_ai_d: '探索 AI 的边界。<br/>每天都在学习新的可能性。',
+      life_read: '阅读', life_read_d: '技术书籍与论文。<br/>知识是最好的投资。',
+      life_create: '创造', life_create_d: 'Side projects & 开源。<br/>把想法变成现实。',
+      life_cycle: '骑行', life_cycle_d: '公路骑行与探索。<br/>最好的灵感在路上。',
+      wechat_label: '微信联系',
+      wechat_id: '微信号：x1208lb',
+      wechat_note: '添加请备注来意',
+    },
+    en: {
+      nav_github: 'GitHub', nav_about: 'About', nav_stack: 'Stack', nav_projects: 'Projects', nav_life: 'Life',
+      hero_title: 'Hi, I\'m <span class="text-[#1D1D1F] dark:text-[#F5F5F7]">Blink Hsu</span>',
+      hero_desc: 'A developer passionate about <strong class="text-[#1D1D1F] dark:text-[#F5F5F7]">AI</strong> and <strong class="text-[#1D1D1F] dark:text-[#F5F5F7]">intelligent tools</strong>. Building smarter software with code. Make a little progress each day, for no effort is ever wasted.',
+      badge_open: 'Open to Collaborate', badge_vibe: 'Vibe Coder',
+      btn_projects: 'View Projects',
+      about_label: 'About', about_title: 'A bit about me',
+      about_ai: 'AI Explorer', about_ai_d: 'Deeply researching LLMs, Agents, RAG and other AI frontiers. Passionate about building intelligent tools and exploring best practices of AI in software engineering.',
+      about_vibe_d: 'Leveraging Claude Code and prompt engineering to ship projects at extraordinary speed. Believes that the future of software is conversational — describe what you want, iterate fast, deliver quality.',
+      about_eng: 'Tool Builder', about_eng_d: 'Building practical developer tools with Python and TypeScript. From AI efficiency audits to desktop apps, every project solves a real problem.',
+      about_learn: 'Lifelong Learner', about_learn_d: 'Make a little progress each day, for no effort is ever wasted. Staying curious and passionate about learning.',
+      stack_label: 'Tech Stack', stack_title: 'Tools & Technologies',
+      stack_ai: 'AI & ML', stack_lang: 'Languages', stack_fw: 'Frameworks & Tools', stack_voice: 'Voice & Audio',
+      proj_label: 'Projects', proj_title: 'What I\'ve Built',
+      proj_aiea: 'AI Efficiency Auditor for Claude Code — not just token counting, but precision diagnostics for token waste.',
+      proj_codewhale: 'Desktop GUI client for CodeWhale terminal coding agent. Built with Electron + React + TypeScript.',
+      proj_vibe: 'MCP server for AI-generated code self-check: scan, debt detection, and health reports. Making AI-written code more reliable.',
+      proj_ccgate: 'Next-action admission controller for Claude Code. Intelligently managing AI Agent behavior boundaries.',
+      stats_title: 'Activity',
+      life_label: 'Life', life_title: 'Beyond Code',
+      life_ai: 'AI Research', life_ai_d: 'Exploring the boundaries of AI.<br/>Learning new possibilities every day.',
+      life_read: 'Reading', life_read_d: 'Tech books & papers.<br/>Knowledge is the best investment.',
+      life_create: 'Creating', life_create_d: 'Side projects & open source.<br/>Turning ideas into reality.',
+      life_cycle: 'Cycling', life_cycle_d: 'Road cycling & exploration.<br/>Best ideas come on the road.',
+      wechat_label: 'WeChat',
+      wechat_id: 'WeChat: x1208lb',
+      wechat_note: 'Please mention your purpose',
+    }
+  };
+
+  let currentLang = localStorage.getItem('lang') || 'zh';
+
+  function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
+    document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+    document.getElementById('lang-zh').classList.toggle('text-[#86868B]', lang !== 'zh');
+    document.getElementById('lang-zh').classList.toggle('dark:text-[#86868B]', lang !== 'zh');
+    document.getElementById('lang-en').classList.toggle('text-[#86868B]', lang !== 'en');
+    document.getElementById('lang-en').classList.toggle('dark:text-[#86868B]', lang !== 'en');
+    const t = I18N[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+  }
+  setLang(currentLang);
+
+  // === Dark mode + ambient effects ===
+  const toggle = document.getElementById('theme-toggle');
+  const html = document.documentElement;
+  const daylightFx = document.getElementById('daylight-fx');
+  const moonlightFx = document.getElementById('moonlight-fx');
+
+  function setTheme(dark) {
+    html.classList.toggle('dark', dark);
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+    daylightFx.style.opacity = dark ? '0' : '1';
+    moonlightFx.style.opacity = dark ? '1' : '0';
+  }
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') setTheme(true);
+  else { setTheme(false); }
+  toggle.addEventListener('click', () => setTheme(!html.classList.contains('dark')));
+
+  // === Light mode: floating gradient orbs ===
+  (function initOrbs() {
+    const canvas = document.getElementById('orb-canvas');
+    const ctx = canvas.getContext('2d');
+    let orbs = [];
+    const COLORS = [
+      'rgba(0,113,227,0.04)',   // blue
+      'rgba(88,86,214,0.035)',  // indigo
+      'rgba(175,82,222,0.03)',  // purple
+      'rgba(52,199,89,0.025)',  // green
+      'rgba(255,149,0,0.02)',   // orange
+    ];
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      orbs = [];
+      const count = Math.max(4, Math.floor(canvas.width / 300));
+      for (let i = 0; i < count; i++) {
+        const r = 150 + Math.random() * 250;
+        orbs.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: r,
+          vx: (Math.random() - 0.5) * 0.2,
+          vy: (Math.random() - 0.5) * 0.15,
+          color: COLORS[i % COLORS.length],
+          phase: Math.random() * Math.PI * 2,
+        });
+      }
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const t = Date.now() * 0.001;
+      orbs.forEach(o => {
+        o.x += o.vx + Math.sin(t * 0.3 + o.phase) * 0.3;
+        o.y += o.vy + Math.cos(t * 0.2 + o.phase) * 0.2;
+        // wrap around
+        if (o.x < -o.r) o.x = canvas.width + o.r;
+        if (o.x > canvas.width + o.r) o.x = -o.r;
+        if (o.y < -o.r) o.y = canvas.height + o.r;
+        if (o.y > canvas.height + o.r) o.y = -o.r;
+
+        const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+        g.addColorStop(0, o.color);
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  // === Dark mode: particle network (neural net / constellation) ===
+  (function initNetwork() {
+    const canvas = document.getElementById('network-canvas');
+    const ctx = canvas.getContext('2d');
+    let nodes = [];
+    const NODE_COUNT_BASE = 50;
+    const CONNECT_DIST = 150;
+    const MOUSE_RADIUS = 200;
+    let mouse = { x: -9999, y: -9999 };
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const count = Math.floor(NODE_COUNT_BASE * (canvas.width * canvas.height) / (1920 * 1080));
+      nodes = [];
+      for (let i = 0; i < Math.max(20, Math.min(count, 80)); i++) {
+        nodes.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          r: 1.5 + Math.random() * 1.5,
+          phase: Math.random() * Math.PI * 2,
+        });
+      }
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    document.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const t = Date.now() * 0.001;
+
+      // Update positions
+      nodes.forEach(n => {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+        if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+        n.x = Math.max(0, Math.min(canvas.width, n.x));
+        n.y = Math.max(0, Math.min(canvas.height, n.y));
+      });
+
+      // Draw connections
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < CONNECT_DIST) {
+            const alpha = (1 - dist / CONNECT_DIST) * 0.12;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = `rgba(0,113,227,${alpha})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw mouse connections
+      nodes.forEach(n => {
+        const dx = n.x - mouse.x;
+        const dy = n.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < MOUSE_RADIUS) {
+          const alpha = (1 - dist / MOUSE_RADIUS) * 0.25;
+          ctx.beginPath();
+          ctx.moveTo(n.x, n.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = `rgba(41,151,255,${alpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      });
+
+      // Draw nodes
+      nodes.forEach(n => {
+        const pulse = 0.6 + 0.4 * Math.sin(t * 1.5 + n.phase);
+        // Glow
+        const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * 4);
+        g.addColorStop(0, `rgba(0,113,227,${0.15 * pulse})`);
+        g.addColorStop(1, 'rgba(0,113,227,0)');
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r * 4, 0, Math.PI * 2);
+        ctx.fillStyle = g;
+        ctx.fill();
+        // Core
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0,113,227,${0.3 + 0.3 * pulse})`;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  // === Mobile menu ===
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuBtn.addEventListener('click', () => { mobileMenu.style.display = mobileMenu.style.display === 'none' ? 'block' : 'none'; });
+  mobileMenu.querySelectorAll('a[href^="#"]').forEach(a => { a.addEventListener('click', () => { mobileMenu.style.display = 'none'; }); });
+
+  // === Scroll reveal ===
+  const revealObserver = new IntersectionObserver(entries => { entries.forEach(e => { if (!e.isIntersecting) return; e.target.classList.add('visible'); revealObserver.unobserve(e.target); }); }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // === Smooth scroll ===
+  document.querySelectorAll('a[href^="#"]').forEach(a => { a.addEventListener('click', function(e) { e.preventDefault(); const t = document.querySelector(this.getAttribute('href')); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); });
+  </script>
+</body>
+</html>
